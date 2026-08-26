@@ -1,0 +1,42 @@
+This repository is licensed as follows:
+
+- The integration layer and everything else original to this repository
+  (waterbox/*.cpp, *.c, *.h except where noted, the build scripts, meson
+  files, tests/ harness files, docs/) is under the MIT License below.
+  waterbox/cinterface.cpp descends from the author's own BizHawk Snes9x
+  port (TASEmulators/snes9x bizhawk/cinterface.cpp).
+
+- patches/ contains a modification to a Snes9x source file and is under
+  Snes9x's own licensing terms.
+
+- Snes9x is vendored unmodified as the submodule extern/snes9x under its
+  own license (see its LICENSE: free for personal use, COMMERCIAL USE
+  PROHIBITED without the copyright holders' permission).
+
+- BUILT ARTIFACTS (core.wbx and the core package) combine this repository's
+  code with Snes9x and inherit its terms - in particular the NON-COMMERCIAL
+  restriction.
+
+----------------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2026 Sergio Martin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

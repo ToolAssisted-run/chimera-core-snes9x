@@ -1,0 +1,34 @@
+[
+ {
+  "name": "arkanoid.anyPercent",
+  "sol": "arkanoid.anyPercent.sol",
+  "rom": "Arkanoid - Doh It Again (J) [!].smc",
+  "sha1": "03F839819A253EED9A928D8D7CC80FCC245AB23D",
+  "ctl1": "joypad",
+  "ctl2": "joypad"
+ },
+ {
+  "name": "christmasCraze.playaround",
+  "sol": "christmasCraze.playaround.sol",
+  "rom": "Christmas_Craze.smc",
+  "sha1": "7752CAA676D15D4D0C42F25548C3E86128A416DB",
+  "ctl1": "joypad",
+  "ctl2": "joypad"
+ },
+ {
+  "name": "princeOfPersia.anyPercent",
+  "sol": "princeOfPersia.anyPercent.sol",
+  "rom": "Prince of Persia (J).smc",
+  "sha1": "DE1D327F90EE57C8B20E2489109638B8632F18F5",
+  "ctl1": "joypad",
+  "ctl2": "none"
+ },
+ {
+  "name": "theLastSuper.playaround",
+  "sol": "theLastSuper.playaround.sol",
+  "rom": "TheLastSuper.sfc",
+  "sha1": "C5CACFDBED312ACDC9D408DC2060B5B967428633",
+  "ctl1": "joypad",
+  "ctl2": "none"
+ }
+]

@@ -1,0 +1,3 @@
+[submodule "extern/snes9x"]
+	path = extern/snes9x
+	url = https://github.com/snes9xgit/snes9x.git
