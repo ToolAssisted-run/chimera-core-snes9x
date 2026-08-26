@@ -1,5 +1,5 @@
 {
-  "_comment": "The core-declared file form for chimera's project wizard: a SNES project is one cartridge. MSU1 data/audio files join with the MSU1 milestone.",
+  "_comment": "The core-declared file form for chimera's project wizard: a SNES project is one cartridge, optionally with its MSU1 audio pack. The pack's files must keep the names the cartridge expects - the .msu data file and the -N.pcm tracks share the rom's stem, which is how Snes9x finds them.",
   "slots": [
     {
       "id": "cart",
@@ -14,6 +14,17 @@
         "bs"
       ],
       "help": "The Super Nintendo / Super Famicom cartridge rom."
+    },
+    {
+      "id": "msu1",
+      "title": "MSU1 audio pack",
+      "min": 0,
+      "max": -1,
+      "formats": [
+        "msu",
+        "pcm"
+      ],
+      "help": "The MSU1 expansion's files for a cartridge that uses it: the .msu data file and the -1.pcm, -2.pcm ... audio tracks. Their names must share the cartridge's stem (rom.msu, rom-1.pcm ...), which is how the machine finds them. Without a pack the cartridge runs with MSU1 absent, exactly as on hardware."
     }
   ]
 }

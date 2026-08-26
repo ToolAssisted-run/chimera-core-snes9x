@@ -167,6 +167,34 @@ device_leg "mouse" '{"rightPort":"mouse"}' --frames 300 --exercise --wiggle-axes
 device_leg "superScope" '{"rightPort":"superScope"}' --frames 300 --exercise --wiggle-axes
 device_leg "justifier" '{"rightPort":"justifier"}' --frames 300 --exercise --wiggle-axes
 
+# ---- MSU1: the expansion pack must be FOUND by both flavors (a game that
+# never reads it leaves no trace in the digests, so the witness is the
+# core's own boot report), and the machine must still run identically.
+wd="$work/msu1"
+mkdir -p "$wd"
+cp "$root/tests/roms/Christmas_Craze.smc" "$wd/"
+python3 "$here/tests/gen-msu1.py" "$wd" Christmas_Craze >/dev/null
+printf '{"cart":["Christmas_Craze.smc"],"msu1":["Christmas_Craze.msu","Christmas_Craze-1.pcm"]}' > "$wd/slots"
+"$nat/run-native" "$wd" --frames 300 --exercise 2>"$work/mn.err" | digests > "$work/mn.txt"
+"$nat/run-wbx" "$gst/core.wbx" "$wd" --frames 300 --exercise 2>"$work/mb.err" | digests > "$work/mb.txt"
+if ! grep -q '\[snes9x\] MSU1 present' "$work/mn.err"; then
+	report "msu1:detected" FAIL "the native run did not find the pack"
+elif ! grep -q '\[snes9x\] MSU1 present' "$work/mb.err"; then
+	report "msu1:detected" FAIL "the sandboxed run did not find the pack"
+elif ! cmp -s "$work/mn.txt" "$work/mb.txt"; then
+	report "msu1:detected" FAIL "$(diff "$work/mn.txt" "$work/mb.txt" | tr '\n' ' ' | head -c 120)"
+else
+	report "msu1:detected" PASS "both flavors mounted the pack and ran identically"
+fi
+rm -f "$wd/Christmas_Craze.msu" "$wd/Christmas_Craze-1.pcm"
+printf '{"cart":["Christmas_Craze.smc"]}' > "$wd/slots"
+"$nat/run-wbx" "$gst/core.wbx" "$wd" --frames 5 2>"$work/mo.err" >/dev/null
+if grep -q '\[snes9x\] MSU1 absent' "$work/mo.err"; then
+	report "msu1:absent" PASS "without a pack the machine reports MSU1 absent"
+else
+	report "msu1:absent" FAIL "the pack-less machine still claims MSU1"
+fi
+
 echo ""
 echo "$ok ok, $failed failed"
 [ "$failed" -gt 0 ] && exit 1

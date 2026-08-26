@@ -115,8 +115,7 @@ Same commands as the sibling repos; the guest needs miniBox's C++ toolchain
   homebrews pass; Arkanoid + Prince of Persia from tests/roms-local/).
   Package installs as build/Cores/snes9x.zip; CI written (needs the
   meson-cpp C++ guest toolchain, like dosbox).
-  REMAINING (after the exotic-input update below): MSU1 (slot + filename
-  wiring via LoadROMMem's optional name), BSX/Sufami multi-cart, tooling.
+  REMAINING (after the updates below): BSX/Sufami multi-cart, tooling.
 - 2026-08-26 (later): M6 exotic input DONE (17/17 + frontend 4/4). The wire
   grew the right-port device blocks (Mouse Left/Right, the five Super Scope
   buttons, the three Justifier buttons = 108 buttons) and six axes (mouse
@@ -128,3 +127,13 @@ Same commands as the sibling repos; the guest needs miniBox's C++ toolchain
   justifier) prove the plumbing: same schedule -> same machine in both
   flavors + per-frame savestate round-trips. Device SEMANTICS (a game that
   reads a mouse) ride the local movie set later.
+- 2026-08-26 (later still): MSU1 DONE with ZERO extra patches (19/19 +
+  frontend 4/4). Upstream finds the pack itself: S9xGetDirectory returns ""
+  so makepath composes the BARE mounted name, and Memory.LoadROMMem's
+  optional filename (the slot's real name) gives MSU1 the stem it derives
+  <stem>.msu and <stem>-N.pcm from. So the whole feature is a file_slots
+  entry (msu1, min 0, unbounded) plus the naming rule in its help text.
+  An MSU1 pack is INVISIBLE in the digests of a game that never reads it,
+  so Init now prints one greppable "[snes9x] MSU1 present/absent" line per
+  boot and the gate witnesses detection through it (the opera randomSeed
+  precedent). tests/gen-msu1.py synthesizes a deterministic pack.

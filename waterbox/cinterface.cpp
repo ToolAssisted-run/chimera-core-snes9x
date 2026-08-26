@@ -365,6 +365,10 @@ ECL_EXPORT int Init(void)
 	}
 	fclose(f);
 
+	/* the rom's NAME matters: MSU1 derives its sibling file names from the
+	 * cartridge stem (<stem>.msu, <stem>-1.pcm ...), and the msu1 slot
+	 * mounts them under exactly those names. S9xGetDirectory returns "",
+	 * so makepath composes the bare mounted name. */
 	if (!Memory.LoadROMMem(romBuf, (uint32)size, file))
 	{
 		snprintf(g_loadError, sizeof g_loadError, "Snes9x rejected '%s'", file);
@@ -375,6 +379,11 @@ ECL_EXPORT int Init(void)
 
 	S9xGraphicsDeinit();
 	S9xGraphicsInit();
+
+	/* one greppable line per boot: an MSU1 pack is invisible in the digests
+	 * of a game that never reads it, so this is how the gate witnesses that
+	 * the expansion was found (and that both flavors found the same thing) */
+	fprintf(stderr, "[snes9x] MSU1 %s\n", Settings.MSU1 ? "present" : "absent");
 
 	g_inited = 1;
 	return 1;
