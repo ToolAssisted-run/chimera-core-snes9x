@@ -17,6 +17,7 @@
 extern int Init(void);
 extern const char *GetLoadError(void);
 extern void SetButton(int32_t index, int32_t state);
+extern void SetAxis(int32_t index, int32_t value);
 extern void FrameAdvance(uint64_t packed);
 extern uint32_t *GetVideoBgra(void);
 extern int GetVideoWidth(void);
@@ -78,6 +79,7 @@ int main(int argc, char **argv)
 		.domain_name = GetMemoryDomainName,
 		.domain_ptr = domain_ptr,
 		.domain_size = GetMemoryDomainSize,
+		.set_axis = SetAxis,
 		.vsync_numerator = GetVsyncNumerator,
 		.vsync_denominator = GetVsyncDenominator,
 		.savedata_count = GetSaveDataFileCount,

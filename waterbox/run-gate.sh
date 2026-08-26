@@ -132,6 +132,41 @@ else
 	report "settings:leftPort" PASS "leftPort=none reached the guest and unplugged the pad"
 fi
 
+# ---- device legs: the multitap and the right-port analog devices. Their
+# SEMANTICS need games that read them (the local movie set's job); these
+# legs prove the plumbing - the same schedule lands on the same machine in
+# both flavors, and survives per-frame savestate round-trips (the mouse's
+# accumulated position is machine state).
+device_leg() {
+	local tag="$1" settings="$2"
+	shift 2
+	local wd="$work/dev.$tag"
+	mkdir -p "$wd"
+	cp "$root/tests/roms/Christmas_Craze.smc" "$wd/"
+	printf '{"cart":["Christmas_Craze.smc"]}' > "$wd/slots"
+	printf '%s' "$settings" > "$wd/settings"
+	if ! "$nat/run-native" "$wd" "$@" 2>"$work/err" | digests > "$work/dn.txt"; then
+		report "$tag:equivalence" FAIL "native runner error: $(head -1 "$work/err")"; return
+	fi
+	if ! "$nat/run-wbx" "$gst/core.wbx" "$wd" "$@" 2>"$work/err" | digests > "$work/db.txt"; then
+		report "$tag:equivalence" FAIL "waterbox runner error: $(head -1 "$work/err")"; return
+	fi
+	if ! cmp -s "$work/dn.txt" "$work/db.txt"; then
+		report "$tag:equivalence" FAIL "$(diff "$work/dn.txt" "$work/db.txt" | tr '\n' ' ' | head -c 120)"; return
+	fi
+	report "$tag:equivalence" PASS "native == waterboxed"
+	if "$nat/run-wbx" "$gst/core.wbx" "$wd" "$@" --rerecord 2>/dev/null | digests > "$work/dr.txt" \
+		&& cmp -s "$work/db.txt" "$work/dr.txt"; then
+		report "$tag:savestate" PASS "per-frame round-trip is lossless"
+	else
+		report "$tag:savestate" FAIL "rerecord differs"
+	fi
+}
+device_leg "multitap" '{"leftPort":"multitap","rightPort":"none"}' --frames 300 --exercise --exercise-pad 3
+device_leg "mouse" '{"rightPort":"mouse"}' --frames 300 --exercise --wiggle-axes
+device_leg "superScope" '{"rightPort":"superScope"}' --frames 300 --exercise --wiggle-axes
+device_leg "justifier" '{"rightPort":"justifier"}' --frames 300 --exercise --wiggle-axes
+
 echo ""
 echo "$ok ok, $failed failed"
 [ "$failed" -gt 0 ] && exit 1

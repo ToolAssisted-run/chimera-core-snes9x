@@ -33,6 +33,7 @@ struct gate_core
 	const char *(*domain_name)(int i);
 	const uint8_t *(*domain_ptr)(int i);
 	int64_t (*domain_size)(int i);
+	void (*set_axis)(int32_t index, int32_t value); /* NULL if the core has no axes */
 	int (*vsync_numerator)(void);
 	int (*vsync_denominator)(void);
 	int32_t (*savedata_count)(void);
@@ -55,6 +56,8 @@ struct gate_opts
 	const char *dumpDomain;     /* optional: memory domain to dump after the run... */
 	const char *dumpPath;       /* ...into this file (the frontend gate compares it) */
 	const char *savedataDir;    /* optional: write every savedata export here after the run */
+	int exercisePad;      /* also drive this pad number (2..8) with the exercise, or 0 */
+	int wiggleAxes;       /* nonzero: drive every axis with a deterministic wander */
 };
 
 static uint64_t gate_fnv(uint64_t h, const void *p, size_t n)
@@ -218,7 +221,33 @@ static int gate_run(const struct gate_core *c, const struct gate_opts *o)
 			}
 		}
 		else if (o->exercise)
+		{
 			gate_exercise_pad(f, buttons);
+			if (o->exercisePad >= 2 && o->exercisePad <= 8)
+			{
+				uint8_t extra[GATE_BTN_COUNT];
+				memset(extra, 0, sizeof extra);
+				gate_exercise_pad(f + 7919, extra); /* a shifted schedule */
+				memcpy(&buttons[2 + (o->exercisePad - 1) * 12], &extra[2], 12);
+			}
+		}
+
+		if (o->wiggleAxes && c->set_axis)
+		{
+			/* a deterministic wander: mouse deltas -2..2, gun coords circling
+			 * the middle of the screen; the same values in both drivers */
+			uint64_t w = (uint64_t)f * 2862933555777941757ULL + 3037000493ULL;
+			w ^= w >> 29;
+			c->set_axis(0, (int32_t)(w % 5) - 2);
+			c->set_axis(1, (int32_t)((w >> 8) % 5) - 2);
+			c->set_axis(2, 96 + (int32_t)((w >> 16) % 64));
+			c->set_axis(3, 88 + (int32_t)((w >> 24) % 64));
+			c->set_axis(4, 96 + (int32_t)((w >> 32) % 64));
+			c->set_axis(5, 88 + (int32_t)((w >> 40) % 64));
+			/* the device buttons (wire 98..107) ride the same wander */
+			for (int k = 98; k < GATE_BTN_COUNT; k++)
+				buttons[k] = (w >> (48 + (k - 98))) & 1;
+		}
 
 		if (c->pre_frame)
 			c->pre_frame();
@@ -309,6 +338,8 @@ static int gate_parse_opts(int argc, char **argv, int first, struct gate_opts *o
 	o->dumpDomain = NULL;
 	o->dumpPath = NULL;
 	o->savedataDir = NULL;
+	o->exercisePad = 0;
+	o->wiggleAxes = 0;
 	for (int i = first; i < argc; i++)
 	{
 		if (!strcmp(argv[i], "--frames") && i + 1 < argc) o->frames = strtol(argv[++i], 0, 0);
@@ -320,6 +351,8 @@ static int gate_parse_opts(int argc, char **argv, int first, struct gate_opts *o
 		else if (!strcmp(argv[i], "--exercise")) o->exercise = 1;
 		else if (!strcmp(argv[i], "--dump-domain") && i + 2 < argc) { o->dumpDomain = argv[++i]; o->dumpPath = argv[++i]; }
 		else if (!strcmp(argv[i], "--savedata-out") && i + 1 < argc) o->savedataDir = argv[++i];
+		else if (!strcmp(argv[i], "--exercise-pad") && i + 1 < argc) o->exercisePad = (int)strtol(argv[++i], 0, 0);
+		else if (!strcmp(argv[i], "--wiggle-axes")) o->wiggleAxes = 1;
 		else if (!strcmp(argv[i], "--rerecord")) ; /* run-wbx's; ignored here */
 		else { fprintf(stderr, "unknown argument %s\n", argv[i]); return 0; }
 	}

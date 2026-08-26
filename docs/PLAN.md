@@ -115,6 +115,16 @@ Same commands as the sibling repos; the guest needs miniBox's C++ toolchain
   homebrews pass; Arkanoid + Prince of Persia from tests/roms-local/).
   Package installs as build/Cores/snes9x.zip; CI written (needs the
   meson-cpp C++ guest toolchain, like dosbox).
-  REMAINING: exotic input (mouse/superScope/justifier + pointer axes),
-  multitap gate leg (wire and walk are in place), MSU1 (slot + filename
+  REMAINING (after the exotic-input update below): MSU1 (slot + filename
   wiring via LoadROMMem's optional name), BSX/Sufami multi-cart, tooling.
+- 2026-08-26 (later): M6 exotic input DONE (17/17 + frontend 4/4). The wire
+  grew the right-port device blocks (Mouse Left/Right, the five Super Scope
+  buttons, the three Justifier buttons = 108 buttons) and six axes (mouse
+  deltas -127..127, gun pointers 0..255/0..239 - BizHawk's AddLightGun
+  ranges); the guest reports them exactly like the fork's report_buttons
+  (relative-to-absolute mouse accumulation included, as savestated machine
+  state). The harness gained SetAxis plumbing, --exercise-pad N and
+  --wiggle-axes; four new gate legs (multitap driving P3, mouse, superScope,
+  justifier) prove the plumbing: same schedule -> same machine in both
+  flavors + per-frame savestate round-trips. Device SEMANTICS (a game that
+  reads a mouse) ride the local movie set later.

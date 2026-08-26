@@ -43,12 +43,25 @@ static int g_inputRead;
 /* ---- the wire format: waterbox.config "input.buttons" order ----
  * 0 Power (hard reset), 1 Reset (soft), then P1..P8 x
  * {Up,Down,Left,Right,Select,Start,Y,B,X,A,L,R} (quickerSnes9x's .sol
- * column order). Which pads are live follows the leftPort/rightPort
- * settings exactly like the author's port-device walk. */
+ * column order), then the right-port devices: Mouse Left/Right (98..99),
+ * Scope Trigger/Cursor/Turbo/Pause/Offscreen (100..104), Justifier
+ * Trigger/Start/Offscreen (105..107). Which blocks are live follows the
+ * leftPort/rightPort settings exactly like the author's port-device walk.
+ * Axes (SetAxis): 0 Mouse X, 1 Mouse Y (relative deltas, -127..127),
+ * 2 Scope X (0..255), 3 Scope Y (0..239), 4 Justifier X, 5 Justifier Y. */
 #define BTN_PADS 2
 #define BTN_PER_PAD 12
-#define BTN_COUNT (BTN_PADS + 8 * BTN_PER_PAD)
+#define BTN_MOUSE (BTN_PADS + 8 * BTN_PER_PAD) /* 98 */
+#define BTN_SCOPE (BTN_MOUSE + 2)              /* 100 */
+#define BTN_JUSTIFIER (BTN_SCOPE + 5)          /* 105 */
+#define BTN_COUNT (BTN_JUSTIFIER + 3)          /* 108 */
+#define AXIS_COUNT 6
 static uint8_t g_buttons[BTN_COUNT];
+static int32_t g_axes[AXIS_COUNT];
+
+/* the fork's relative-to-absolute mouse accumulation (machine state:
+ * savestates carry it) */
+static int16_t snes_mouse_state[2][2];
 
 /* wire column -> the fork's joypad button id (B=0,Y,Select,Start,Up,Down,
  * Left,Right,A,X,L,R) */
@@ -207,8 +220,35 @@ static void report_buttons()
 					S9xReportButton(MAKE_BUTTON(port * offset + j + 1, kColToBtn[col]),
 						g_buttons[BTN_PADS + (port * offset + j) * BTN_PER_PAD + col]);
 			break;
+		case DEV_MOUSE:
+		{
+			/* the author's relative->absolute accumulation, verbatim */
+			snes_mouse_state[port][0] += (int16_t)g_axes[0];
+			snes_mouse_state[port][1] += (int16_t)g_axes[1];
+			S9xReportPointer(BTN_POINTER + port, snes_mouse_state[port][0],
+				snes_mouse_state[port][1]);
+			/* device block ids: x=0 y=1 left=2 right=3 */
+			S9xReportButton(MAKE_BUTTON(port + 1, 2), g_buttons[BTN_MOUSE + 0]);
+			S9xReportButton(MAKE_BUTTON(port + 1, 3), g_buttons[BTN_MOUSE + 1]);
+			break;
+		}
+		case DEV_SUPERSCOPE:
+		{
+			S9xReportPointer(BTN_POINTER, (int16_t)g_axes[2], (int16_t)g_axes[3]);
+			/* ids: trigger=2 cursor=3 turbo=4 pause=5 offscreen=6 */
+			for (int i = 2; i <= 6; i++)
+				S9xReportButton(MAKE_BUTTON(2, i), g_buttons[BTN_SCOPE + (i - 2)]);
+			break;
+		}
+		case DEV_JUSTIFIER:
+		{
+			S9xReportPointer(BTN_POINTER, (int16_t)g_axes[4], (int16_t)g_axes[5]);
+			/* ids: trigger=2 start=3 offscreen=4 */
+			for (int i = 2; i <= 4; i++)
+				S9xReportButton(MAKE_BUTTON(2, i), g_buttons[BTN_JUSTIFIER + (i - 2)]);
+			break;
+		}
 		default:
-			/* mouse/scope/justifier ride the exotic-input milestone */
 			break;
 		}
 	}
@@ -344,6 +384,12 @@ ECL_EXPORT void SetButton(int32_t index, int32_t state)
 {
 	if (index >= 0 && index < BTN_COUNT)
 		g_buttons[index] = state != 0;
+}
+
+ECL_EXPORT void SetAxis(int32_t index, int32_t value)
+{
+	if (index >= 0 && index < AXIS_COUNT)
+		g_axes[index] = value;
 }
 
 ECL_EXPORT void FrameAdvance(uint64_t packed)
