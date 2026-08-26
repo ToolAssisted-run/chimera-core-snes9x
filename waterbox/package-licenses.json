@@ -1,0 +1,23 @@
+{
+  "package": "snes9x",
+  "effectiveTerms": "Snes9x licence (non-commercial), over MIT integration",
+  "commercialUse": "prohibited",
+  "note": "Snes9x is free for personal use; COMMERCIAL USE IS PROHIBITED without the copyright holders' permission. The package as a whole inherits that restriction.",
+  "components": [
+    {
+      "name": "chimera-core-snes9x (integration)",
+      "license": "MIT, and Snes9x terms for patches/",
+      "url": "https://github.com/ToolAssisted-run/chimera-core-snes9x",
+      "commit": "{selfCommit}",
+      "file": "LICENSE"
+    },
+    {
+      "name": "Snes9x",
+      "license": "Snes9x licence (non-commercial)",
+      "url": "https://github.com/snes9xgit/snes9x",
+      "commit": "{submodule:extern/snes9x}",
+      "file": "extern/snes9x/LICENSE",
+      "sourceUrl": "https://github.com/snes9xgit/snes9x/archive/{commit}.tar.gz"
+    }
+  ]
+}
