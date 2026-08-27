@@ -169,7 +169,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: snes9x-${{ github.sha }}
-          path: chimera-checkout/build/Cores/snes9x.zip
+          path: chimera-checkout/build/Cores/snes9x.chimeraCore
           if-no-files-found: error
 
       - name: Upload the frontend work dir on failure

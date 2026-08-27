@@ -35,7 +35,7 @@ fi
 chimera_root="$(cd "$chimera_root" && pwd)"
 
 emu_exe="$chimera_root/build/Chimera.exe"
-package="$chimera_root/build/Cores/snes9x.zip"
+package="$chimera_root/build/Cores/snes9x.chimeraCore"
 rn="$root/build/meson-native/run-native"
 rom="$root/tests/roms/Christmas_Craze.smc"
 [ -f "$emu_exe" ] || { echo "Chimera not built: $emu_exe" >&2; exit 1; }

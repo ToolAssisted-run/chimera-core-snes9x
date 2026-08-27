@@ -113,7 +113,7 @@ Same commands as the sibling repos; the guest needs miniBox's C++ toolchain
   must cap --frames alongside --sol, or the harness runs the 600-frame
   default past the movie). tests/run-roms.sh replays the manifest (2
   homebrews pass; Arkanoid + Prince of Persia from tests/roms-local/).
-  Package installs as build/Cores/snes9x.zip; CI written (needs the
+  Package installs as build/Cores/snes9x.chimeraCore; CI written (needs the
   meson-cpp C++ guest toolchain, like dosbox).
   REMAINING (after the updates below): BSX/Sufami multi-cart, tooling.
 - 2026-08-26 (later): M6 exotic input DONE (17/17 + frontend 4/4). The wire
