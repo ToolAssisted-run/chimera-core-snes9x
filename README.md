@@ -26,8 +26,8 @@ Status and plan: `docs/PLAN.md`.
 meson setup build/meson-native && ninja -C build/meson-native
 
 # the guest core (needs miniBox's C++ toolchain, e.g. in a chimera checkout:
-#   meson setup extern/miniBox/build/meson-cpp extern/miniBox -Dguest_cpp=true
-#   ninja -C extern/miniBox/build/meson-cpp)
+#   meson setup extern/chimera-common-minibox/build/meson-cpp extern/chimera-common-minibox -Dguest_cpp=true
+#   ninja -C extern/chimera-common-minibox/build/meson-cpp)
 sh waterbox/setup-guest.sh && ninja -C build/meson-guest
 
 # the equivalence gate: native == sandbox == savestate-rerecord on video,
