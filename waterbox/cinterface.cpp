@@ -79,6 +79,15 @@ static unsigned snes_devices[2];
 static uint32_t g_videoOut[MAX_SNES_WIDTH * MAX_SNES_HEIGHT];
 static int g_vwidth = SNES_WIDTH, g_vheight = SNES_HEIGHT;
 static int actual_width = SNES_WIDTH, actual_height = SNES_HEIGHT;
+
+/* Turbo. Snes9x has carried a render-off path since its frame-skipping days and
+ * keeps it honest: RenderLine's else branch still runs SetupOBJ and still ORs
+ * the sprite range/time-over flags into PPU.RangeTimeOver, which is what $213E
+ * reads, so the 65816 sees the same machine either way. ECL_INVISIBLE because
+ * this is the frontend's policy for the moment, not part of the machine: the
+ * PPU's own copy of the flag is inside the savestate, which is why FrameAdvance
+ * re-asserts it from here every frame. */
+ECL_INVISIBLE static int g_render = 1;
 static bool use_overscan = false;
 
 #define MAX_SAMPLES 4096
@@ -417,6 +426,7 @@ ECL_EXPORT void FrameAdvance(uint64_t packed)
 	report_buttons();
 
 	g_inputRead = 0;
+	IPPU.RenderThisFrame = g_render ? TRUE : FALSE;
 	S9xMainLoop();
 	S9xLandSamples();
 
@@ -426,7 +436,10 @@ ECL_EXPORT void FrameAdvance(uint64_t packed)
 	S9xMixSamples((uint8 *)g_soundbuffer, avail);
 	g_nsamples = (int)(avail / 2);
 
-	/* RGB565 -> opaque BGRA (the author's blit, channel math verbatim) */
+	/* RGB565 -> opaque BGRA (the author's blit, channel math verbatim). In turbo
+	 * the PPU produced no lines, so there is nothing to convert and the buffer
+	 * keeps the last frame that was drawn. */
+	if (g_render)
 	{
 		const uint16_t *src = GFX.Screen;
 		uint32_t *dst = g_videoOut;
@@ -447,6 +460,12 @@ ECL_EXPORT void FrameAdvance(uint64_t packed)
 		g_vheight = actual_height;
 	}
 }
+
+/* Turbo (optional guest ABI group): while off the core must produce no picture
+ * and must otherwise be exactly the machine it would have been. run-gate.sh's
+ * turbo leg is the proof - N undrawn frames plus one drawn one come out byte for
+ * byte the same machine, and the same picture, as N+1 drawn ones. */
+ECL_EXPORT void SetRenderingEnabled(int on) { g_render = on != 0; }
 
 ECL_EXPORT uint32_t *GetVideoBgra(void) { return g_videoOut; }
 ECL_EXPORT int GetVideoWidth(void) { return g_vwidth; }
