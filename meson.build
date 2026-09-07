@@ -1,6 +1,7 @@
 # chimera-core-snes9x: Snes9x in miniBox's sandbox, as a Chimera core.
 #
-# Native reference build (run-native + run-wbx under the build dir):
+# Native reference build (run-native + run-wbx under the build dir; run-wbx
+# links miniBox's host library out of the same meson-cpp build dir):
 #     meson setup build/meson-native && ninja -C build/meson-native
 # Guest (core.wbx) build via the cross file waterbox/setup-guest.sh writes
 # (needs miniBox's C++ guest toolchain, build/meson-cpp):
@@ -137,7 +138,12 @@ else
     cpp_args: ['-I' + mb / 'source/guest/include', '-I' + mb / 'extern/jsmn'],
     dependencies: [m])
 
-  mbhost = mb / 'build/meson-linux/source/host'
+  # The host library comes from the SAME miniBox build dir the guest toolchain
+  # does. snes9x is C++, so that is meson-cpp (-Dguest_cpp=true); meson-linux
+  # is the plain C kit and a C-only core's build dir, which a C++ core has no
+  # reason to configure. CI builds meson-cpp only, so looking in meson-linux
+  # left run-wbx with nothing to link against.
+  mbhost = mb / 'build/meson-cpp/source/host'
   executable('run-wbx', files('waterbox/run-wbx.c'),
     c_args: ['-I' + mb / 'source/host'],
     link_args: [mbhost / 'libminiboxhost.so', '-Wl,-rpath,' + mbhost])

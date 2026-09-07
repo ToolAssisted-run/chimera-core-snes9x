@@ -3,8 +3,8 @@
 # miniBox's musl guest toolchain (plain C - snes9x is C++: the miniBox C++ toolchain (meson-cpp) provides libstdc++) and sets
 # up build/meson-guest.
 #
-# Prereq: a built miniBox checkout:
-#   meson setup <miniBox>/build/meson-linux <miniBox> && ninja -C <miniBox>/build/meson-linux
+# Prereq: a built miniBox checkout with the C++ guest kit:
+#   meson setup <miniBox>/build/meson-cpp <miniBox> -Dguest_cpp=true && ninja -C <miniBox>/build/meson-cpp
 #
 # Usage: ./waterbox/setup-guest.sh [-m <miniBox dir>]
 set -eu
