@@ -98,12 +98,29 @@ PYSET
 	# Turbo: the core's drawing switched off for the first half of the run and
 	# back on for the second. The machine, the sound, the lag count and every
 	# picture of that second half must be what they would have been.
-	"$nat/run-wbx" "$gst/core.wbx" "$wd" "${args[@]}" 2>/dev/null | turboDigests > "$work/tnorm.txt"
-	if "$nat/run-wbx" "$gst/core.wbx" "$wd" "${args[@]}" --turbo 2>/dev/null | turboDigests > "$work/turbo.txt"; then
-		if cmp -s "$work/tnorm.txt" "$work/turbo.txt"; then
-			report "$name:turbo" PASS "$frames frames, half of them undrawn, same machine and same pictures"
-		else
+	# And the first half really must have gone undrawn. The comparison below is
+	# blind to that on its own: it is held over tailVideoHash, the second half
+	# only, so a SetRenderingEnabled that did nothing at all would leave every
+	# compared digest identical and this leg would report "half of them undrawn"
+	# about a run that drew every frame. That is not hypothetical - stubbing the
+	# export to a no-op in the sibling stella core and rebuilding gave a fully
+	# green gate. The whole-run videoHash is the witness, and the harness
+	# already prints it: it covers the first half too, so the two runs cannot
+	# agree on it unless the picture was never switched off.
+	"$nat/run-wbx" "$gst/core.wbx" "$wd" "${args[@]}" 2>/dev/null > "$work/tnorm.raw"
+	if "$nat/run-wbx" "$gst/core.wbx" "$wd" "${args[@]}" --turbo 2>/dev/null > "$work/tturbo.raw"; then
+		turboDigests < "$work/tnorm.raw" > "$work/tnorm.txt"
+		turboDigests < "$work/tturbo.raw" > "$work/turbo.txt"
+		nvh="$(grep -m1 '^videoHash=' "$work/tnorm.raw")"
+		tvh="$(grep -m1 '^videoHash=' "$work/tturbo.raw")"
+		if ! cmp -s "$work/tnorm.txt" "$work/turbo.txt"; then
 			report "$name:turbo" FAIL "$(diff "$work/tnorm.txt" "$work/turbo.txt" | tr '\n' ' ' | head -c 120)"
+		elif [ -z "$nvh" ] || [ -z "$tvh" ]; then
+			report "$name:turbo" FAIL "no whole-run videoHash to tell a skipped frame from a drawn one"
+		elif [ "$nvh" = "$tvh" ]; then
+			report "$name:turbo" FAIL "the turbo run drew every frame - nothing was skipped"
+		else
+			report "$name:turbo" PASS "$frames frames, half of them really undrawn, same machine and same pictures"
 		fi
 	else
 		report "$name:turbo" FAIL "turbo runner error"
@@ -156,8 +173,9 @@ fi
 # both flavors, and survives per-frame savestate round-trips (the mouse's
 # accumulated position is machine state).
 device_leg() {
-	local tag="$1" settings="$2"
-	shift 2
+	# tag, the settings under test, and the settings the result must NOT match.
+	local tag="$1" settings="$2" unlike="$3" unlikeName="$4"
+	shift 4
 	local wd="$work/dev.$tag"
 	mkdir -p "$wd"
 	cp "$root/tests/roms/Christmas_Craze.smc" "$wd/"
@@ -172,7 +190,29 @@ device_leg() {
 	if ! cmp -s "$work/dn.txt" "$work/db.txt"; then
 		report "$tag:equivalence" FAIL "$(diff "$work/dn.txt" "$work/db.txt" | tr '\n' ' ' | head -c 120)"; return
 	fi
-	report "$tag:equivalence" PASS "native == waterboxed"
+	# Both sides of that comparison were built from the same settings, so it
+	# says the two flavors agree and nothing at all about WHAT they agreed on.
+	# The parser answers a device name it does not know with a joypad and a line
+	# on stderr (cinterface.cpp, "unknown %s '%s', using joypad") that nothing
+	# here reads - so deleting a device from it left both flavors building a
+	# joypad, agreeing perfectly, and round-tripping a state with nothing in it.
+	# Deleting the superScope line and rebuilding gave 22 ok, 0 failed. So each
+	# leg also names a machine its own must not be.
+	#
+	# For the three right-port analog devices that machine is a plain pad, which
+	# is exactly what the broken parser falls back to. The multitap cannot be
+	# held to that here: Christmas_Craze reads ports one and two and never looks
+	# further, so a multitap and a pad leave it byte-identical (measured). Its
+	# control is the empty port instead, which proves the name reached the guest
+	# without proving it arrived as a multitap - a game that reads a third pad
+	# is what would close that, and the local movie set is where it belongs.
+	printf '%s' "$unlike" > "$wd/settings"
+	"$nat/run-wbx" "$gst/core.wbx" "$wd" "$@" 2>/dev/null | digests > "$work/dp.txt"
+	printf '%s' "$settings" > "$wd/settings"
+	if cmp -s "$work/db.txt" "$work/dp.txt"; then
+		report "$tag:equivalence" FAIL "the device built the machine $unlikeName builds - did the name reach the guest at all?"; return
+	fi
+	report "$tag:equivalence" PASS "native == waterboxed, and not the machine $unlikeName makes"
 	if "$nat/run-wbx" "$gst/core.wbx" "$wd" "$@" --rerecord 2>/dev/null | digests > "$work/dr.txt" \
 		&& cmp -s "$work/db.txt" "$work/dr.txt"; then
 		report "$tag:savestate" PASS "per-frame round-trip is lossless"
@@ -180,10 +220,14 @@ device_leg() {
 		report "$tag:savestate" FAIL "rerecord differs"
 	fi
 }
-device_leg "multitap" '{"leftPort":"multitap","rightPort":"none"}' --frames 300 --exercise --exercise-pad 3
-device_leg "mouse" '{"rightPort":"mouse"}' --frames 300 --exercise --wiggle-axes
-device_leg "superScope" '{"rightPort":"superScope"}' --frames 300 --exercise --wiggle-axes
-device_leg "justifier" '{"rightPort":"justifier"}' --frames 300 --exercise --wiggle-axes
+device_leg "multitap" '{"leftPort":"multitap","rightPort":"none"}' \
+	'{"leftPort":"none","rightPort":"none"}' "an empty port" --frames 300 --exercise --exercise-pad 3
+device_leg "mouse" '{"rightPort":"mouse"}' \
+	'{"leftPort":"joypad","rightPort":"joypad"}' "a plain pad" --frames 300 --exercise --wiggle-axes
+device_leg "superScope" '{"rightPort":"superScope"}' \
+	'{"leftPort":"joypad","rightPort":"joypad"}' "a plain pad" --frames 300 --exercise --wiggle-axes
+device_leg "justifier" '{"rightPort":"justifier"}' \
+	'{"leftPort":"joypad","rightPort":"joypad"}' "a plain pad" --frames 300 --exercise --wiggle-axes
 
 # ---- MSU1: the expansion pack must be FOUND by both flavors (a game that
 # never reads it leaves no trace in the digests, so the witness is the
