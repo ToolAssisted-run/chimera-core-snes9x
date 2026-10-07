@@ -19,16 +19,31 @@ unnecessary under whole-guest savestates.
 
 Status and plan: `docs/PLAN.md`.
 
+## Using it in Chimera
+
+Chimera ships no cores and downloads none. Download
+`snes9x-<version>.chimeraCore` from this repository's
+[Releases](https://github.com/ToolAssisted-run/chimera-core-snes9x/releases)
+page (`dev` follows main, `nightly-YYYY-MM-DD` builds are dated), or build it,
+and put the file in the `Cores` folder beside `Chimera.exe`. File > Core
+Manager lists the cores in that folder. The same file works on Linux and on
+Windows. Game files are not included: you provide them.
+
 ## Build and test
 
-```
-# native reference + sandbox drivers
-meson setup build/meson-native && ninja -C build/meson-native
+`<chimera>` is a Chimera checkout and `<minibox>` is its
+`extern/chimera-common-minibox` submodule.
 
-# the guest core (needs miniBox's C++ toolchain, e.g. in a chimera checkout:
-#   meson setup extern/chimera-common-minibox/build/meson-cpp extern/chimera-common-minibox -Dguest_cpp=true
-#   ninja -C extern/chimera-common-minibox/build/meson-cpp)
-sh waterbox/setup-guest.sh && ninja -C build/meson-guest
+```
+# miniBox with its C++ guest toolchain, in build/meson-cpp
+meson setup <minibox>/build/meson-cpp <minibox> -Dguest_cpp=true
+meson compile -C <minibox>/build/meson-cpp
+
+# native reference + sandbox drivers
+meson setup build/meson-native -Dminibox_dir=<minibox> && ninja -C build/meson-native
+
+# the guest core
+sh waterbox/setup-guest.sh -m <minibox> && ninja -C build/meson-guest
 
 # the equivalence gate: native == sandbox == savestate-rerecord on video,
 # audio, lag and every memory domain, over quickerSnes9x's homebrew movies
@@ -36,4 +51,11 @@ sh waterbox/setup-guest.sh && ninja -C build/meson-guest
 
 # the full movie manifest (commercial roms from tests/roms-local/)
 ./waterbox/tests/run-roms.sh
+
+# the package, written to <chimera>/build/Cores/snes9x.chimeraCore
+./waterbox/build-package.sh -m <minibox> -r <chimera>
 ```
+
+The full instructions, from a fresh clone to the gates, are in
+[docs/BUILDING.md](docs/BUILDING.md). An AI coding agent should start with
+[AGENTS.md](AGENTS.md).
