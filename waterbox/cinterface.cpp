@@ -652,9 +652,20 @@ ECL_EXPORT const uint8_t *GetSaveDataFileBuffer(int32_t i)
 
 /* ---- upstream port hooks (the author's list, verbatim where possible) ---- */
 
+/* Chimera's function to call at each read of the pads, so a Lua script's
+ * event.oninputpoll runs there (chimera#344). It is the same callback slot in
+ * every session and no savestate carries it. */
+ECL_INVISIBLE static uintptr_t (*g_inputPoll)(uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ECL_EXPORT void SetInputPollCallback(uint64_t fn)
+{
+	g_inputPoll = (uintptr_t (*)(uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t, uintptr_t))(uintptr_t)fn;
+}
+
 void S9xOnSNESPadRead()
 {
 	g_inputRead = 1;
+	if (g_inputPoll)
+		g_inputPoll(0, 0, 0, 0, 0, 0);
 }
 
 bool8 S9xDeinitUpdate(int width, int height)
