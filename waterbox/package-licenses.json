@@ -18,6 +18,12 @@
       "commit": "{submodule:extern/snes9x}",
       "file": "extern/snes9x/LICENSE",
       "sourceUrl": "https://github.com/snes9xgit/snes9x/archive/{commit}.tar.gz"
+    },
+    {
+      "name": "A Super NES controller, a photograph (pictures/snes-controller.png)",
+      "license": "Public domain",
+      "url": "https://commons.wikimedia.org/wiki/File:SNES-Controller-Flat.jpg",
+      "file": "pictures/snes-controller.txt"
     }
   ]
 }
