@@ -87,9 +87,11 @@ run_frontend() {
 	} > "$job"
 	rm -f "$work/$tag.ram.bin" "$work/$tag.meta.txt"
 	[ -n "$shot" ] && rm -f "$shot"
+	local project
+	project="$(game_project "$tag" "$cfg")" || { echo "no project made (see tests/work/project.$tag/make.log)" > "$work/$tag.log"; return 1; }
 	( cd "$chimera_root" && MINIHAWK_JOB="$job" timeout 900 mono "$emu_exe" --headless \
 		"--config=$cfg" "--core=$package" \
-		"--lua=$here/frontend-ram.lua" "$rom" ) > "$work/$tag.log" 2>&1
+		"--lua=$here/frontend-ram.lua" "--project=$project" ) > "$work/$tag.log" 2>&1
 	[ -f "$work/$tag.meta.txt" ] && grep -q "^status=OK" "$work/$tag.meta.txt"
 }
 
@@ -109,7 +111,18 @@ native_ram() {
 		> "$work/native.$tag.txt" 2>&1
 }
 
-settings_config() { python3 "$here/settings-config.py" "$config" "$1" "$2"; }
+# A game runs only in a project (Chimera, 2026-10-26): each run opens one made
+# of the cartridge with chimera-run --new-project, holding the settings
+# settings_config was given for the config it runs with.
+declare -A settings_of
+settings_config() { python3 "$here/settings-config.py" "$config" "$1" "$2"; settings_of["$1"]="$2"; }
+crun="$chimera_root/build/dll/chimera-run"
+game_project() { # tag, config: prints the project's path
+	local dir="$work/project.$1" settings="${settings_of[$2]:-}"
+	rm -rf "$dir" && mkdir -p "$dir" && cp "$rom" "$dir/"
+	"$crun" --new-project "$dir/$1.chimeraProject" "$package" "$dir/$(basename "$rom")" \
+		--settings "${settings:-"{}"}" > "$dir/make.log" 2>&1 && echo "$dir/$1.chimeraProject"
+}
 
 # --- the machine the frontend builds must be the one the gate signed off on ---
 settings_config "$work/config.base.ini" '{}'
