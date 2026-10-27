@@ -29,22 +29,10 @@ Two placeholders are used throughout:
   workflow pins no compiler version. The guest is compiled by the same gcc and
   g++ through miniBox's musl specs file, so there is no separate cross
   compiler to install.
-- For the frontend gate only, a built Chimera, which needs more packages:
-
-  ```
-  sudo apt-get install -y --no-install-recommends \
-    meson ninja-build build-essential cmake pkg-config python3 \
-    mono-complete xvfb \
-    libgl1-mesa-dev libx11-dev libxext-dev libasound2-dev
-  ```
-
-  and the .NET SDK 8.0. The workflow installs it with
-  `actions/setup-dotnet@v4` and `dotnet-version: '8.0'`. By hand, Chimera's
-  README gives this command:
-
-  ```
-  curl -sSL https://dot.net/v1/dotnet-install.sh | bash -s -- --channel 8.0
-  ```
+- For the frontend gate only, Chimera built with its window. Chimera's
+  `tools/ci-chimera.sh` installs what that needs (Qt 6.12, from Qt's own
+  archives with aqt) and builds it; the workflow keeps Qt in `~/qt` between
+  runs.
 
 - One download happens during the build, and miniBox does it itself. Snes9x is
   C++, so the guest needs a C++ standard library built for the sandbox.
@@ -224,11 +212,11 @@ gets into Chimera because somebody puts its file in the cores folder.
 
 - In a Chimera source checkout the cores folder is `<chimera>/build/Cores/`.
   `build-package.sh -r <chimera>` has already written the package there.
-- In a release bundle the cores folder is `Cores` beside `Chimera.exe`, or
-  another folder chosen in File > Core Manager > Change folder... Copy
+- In a release bundle the cores folder is `cores` beside Chimera's program, or
+  another folder chosen in Tools > Core Manager... > Change folder... Copy
   `snes9x.chimeraCore` into it.
 
-File > Core Manager lists what is in that folder. Refresh List rescans it, so
+Tools > Core Manager... lists what is in that folder. Refresh List rescans it, so
 a package copied in while Chimera runs is found without a restart.
 
 The same package file works on Linux and on Windows: Chimera's sandbox,
@@ -243,9 +231,7 @@ Releases page
 - `nightly-YYYY-MM-DD`: dated, from the scheduled run (04:00 UTC), and only
   when main moved since the last one.
 
-To use the core, start Chimera (`build/ChimeraMono.sh` on Linux,
-`build\Chimera.exe` on Windows in a source checkout), choose
-File > New Project... and pick the core. To play a ROM with no project, pass
+To use the core, start Chimera (`build/meson-linux/source/ui/chimera` on Linux in a source checkout), choose File > New Project... and pick the core. To play a ROM with no project, pass
 `--core=<package> <rom>` on the command line.
 
 ## Run the gates
@@ -259,8 +245,7 @@ CI runs all three and all three must pass before anything is published.
 ```
 
 It needs `build/meson-native/run-native`, `build/meson-native/run-wbx`,
-`build/meson-guest/core.wbx` and python3. It needs no Chimera build, no .NET,
-no Mono and no X display. `-n <native build dir>` and `-g <guest build dir>`
+`build/meson-guest/core.wbx` and python3. It needs no Chimera build and no display. `-n <native build dir>` and `-g <guest build dir>`
 point it at other build directories. It does not rebuild anything: build both
 flavors first.
 
@@ -312,15 +297,10 @@ half runs.
 
 ### Frontend gate
 
-This gate runs the package inside Chimera, headless, under Mono. Build Chimera
-first, as the workflow does:
+This gate runs the package inside Chimera, headless, with Chimera's window. Build Chimera with its window first, as the workflow does:
 
 ```
-cd <chimera>
-meson setup build/meson-linux --prefix "$PWD/build" --libdir dll
-meson compile -C build/meson-linux
-meson install -C build/meson-linux
-dotnet build source/gui/Chimera.sln -c Release /nodeReuse:false -p:UseSharedCompilation=false
+<chimera>/tools/ci-chimera.sh
 ```
 
 Then, in this repository, with the package built and `run-native` built:
@@ -329,10 +309,9 @@ Then, in this repository, with the package built and `run-native` built:
 ./waterbox/tests/run-frontend.sh --chimera-root <chimera>
 ```
 
-It needs `<chimera>/build/Chimera.exe`,
+It needs `<chimera>/build/meson-linux/source/ui/chimera`,
 `<chimera>/build/Cores/snes9x.chimeraCore`, `build/meson-native/run-native`,
-mono and python3. With `DISPLAY` unset it starts its own Xvfb and stops it on
-exit; with `DISPLAY` set it uses that display. `--frames N` changes the run
+and python3. No display is needed: the window runs headless. `--frames N` changes the run
 length (default 300). Its checks:
 
 - `cart:frontend`: after 300 idle frames of a homebrew cartridge, the WRAM
@@ -340,7 +319,7 @@ length (default 300). Its checks:
 - `input:frontend`: P1 Right and Start, held through the frontend, give the
   WRAM of a native run of a movie holding the same buttons, and not the WRAM
   of the idle run.
-- `settings:leftPort`: `leftPort=none`, set through Chimera's config, makes
+- `settings:leftPort`: `leftPort=none`, set through the project, makes
   the held buttons dead: a different machine that matches its own native
   reference.
 - `keybinds`: the package's `default_keybinds.json` becomes Chimera's default
@@ -388,10 +367,6 @@ Two settings shape the machine: `leftPort` (`joypad`, `none`, `multitap`) and
 - `Chimera not built`, `package not installed` or `native reference not built`
   from `run-frontend.sh`: build Chimera, run `build-package.sh`, and build
   `run-native`, in that order.
-- `Xvfb not found (apt install xvfb)` from `run-frontend.sh`: `DISPLAY` is
-  unset and Xvfb is not installed.
-- `config bootstrap failed` from `run-frontend.sh`: Chimera did not start.
-  Read `waterbox/tests/work/bootstrap.log`.
 - A hand-built package is stamped `-dirty+local` even with nothing edited. The
   applied patch makes the submodule's working tree differ from its pin, and
   `git diff --quiet HEAD` counts that as a change.
