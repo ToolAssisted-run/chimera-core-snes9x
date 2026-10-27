@@ -63,6 +63,15 @@ if job.hold ~= nil and job.hold ~= "" then
 	end
 end
 
+-- In Chimera's window the movie is what plays: a script's joypad.set reaches
+-- the core only while TAStudio is recording, so turn that on before holding.
+if next(held) ~= nil then
+	pcall(function() tastudio.setrecording(true) end)
+	if not tastudio.getrecording() then
+		finish("ERROR", "TAStudio would not record, so the held buttons cannot reach the core")
+	end
+end
+
 local frames = tonumber(job.frames) or 120
 for _ = 1, frames do
 	if next(held) ~= nil then
