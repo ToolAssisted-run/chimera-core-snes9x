@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "No cartridge file is in the project.",
+		"error.no_memory": "Snes9x could not set up the console's memory or its sound chip.",
+		"error.not_read": "Could not read '%1'.",
+		"error.rejected": "Snes9x could not load '%1'.",
+		"setting.leftport": "Left Port",
+		"setting.leftport.about": "What is plugged into the console's left controller port. A multitap gives players 1 to 4, and the pads of the right port then come after them.",
+		"setting.rightport": "Right Port",
+		"setting.rightport.about": "What is plugged into the console's right controller port.",
+		"slot.cart": "Cartridge",
+		"slot.cart.help": "The Super Nintendo or Super Famicom cartridge ROM.",
+		"slot.msu1": "MSU1 audio pack",
+		"slot.msu1.help": "The files of the MSU1 add-on, for a cartridge that uses it. They are the .msu data file and the audio tracks -1.pcm, -2.pcm and so on. Their names must start with the cartridge's file name (rom.msu, rom-1.pcm ...), because that is how the machine finds them. With no pack the cartridge runs as it does on a console that has no MSU1."
+	}
+}

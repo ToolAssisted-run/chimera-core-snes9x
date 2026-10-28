@@ -3,7 +3,7 @@
   "slots": [
     {
       "id": "cart",
-      "title": "Cartridge",
+      "title": "slot.cart",
       "min": 1,
       "max": 1,
       "formats": [
@@ -13,18 +13,18 @@
         "fig",
         "bs"
       ],
-      "help": "The Super Nintendo or Super Famicom cartridge ROM."
+      "help": "slot.cart.help"
     },
     {
       "id": "msu1",
-      "title": "MSU1 audio pack",
+      "title": "slot.msu1",
       "min": 0,
       "max": -1,
       "formats": [
         "msu",
         "pcm"
       ],
-      "help": "The files of the MSU1 add-on, for a cartridge that uses it. They are the .msu data file and the audio tracks -1.pcm, -2.pcm and so on. Their names must start with the cartridge's file name (rom.msu, rom-1.pcm ...), because that is how the machine finds them. With no pack the cartridge runs as it does on a console that has no MSU1."
+      "help": "slot.msu1.help"
     }
   ]
 }

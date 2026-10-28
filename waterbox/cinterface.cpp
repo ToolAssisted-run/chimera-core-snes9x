@@ -36,6 +36,11 @@
 #include "display.h"
 #include "conffile.h"
 
+/* A text a person reads is a key of languages/en.json, each of its
+ * arguments after a TEXT_ARG (chimera docs/translations.md). TEXT_ARG is a
+ * string of its own so the byte after it is never read as more of its hex. */
+#define TEXT_ARG "\x1f"
+
 static char g_loadError[512];
 static int g_inited;
 static int g_inputRead;
@@ -328,7 +333,7 @@ ECL_EXPORT int Init(void)
 
 	if (!Memory.Init() || !S9xInitAPU())
 	{
-		snprintf(g_loadError, sizeof g_loadError, "failed to init Memory or APU");
+		snprintf(g_loadError, sizeof g_loadError, "error.no_memory");
 		return 0;
 	}
 
@@ -358,7 +363,7 @@ ECL_EXPORT int Init(void)
 	FILE *f = fopen(file, "rb");
 	if (f == NULL)
 	{
-		snprintf(g_loadError, sizeof g_loadError, "no cartridge file is mounted");
+		snprintf(g_loadError, sizeof g_loadError, "error.no_file");
 		return 0;
 	}
 	fseek(f, 0, SEEK_END);
@@ -369,7 +374,7 @@ ECL_EXPORT int Init(void)
 	if (fread(romBuf, 1, (size_t)size, f) != (size_t)size)
 	{
 		fclose(f);
-		snprintf(g_loadError, sizeof g_loadError, "could not read '%s'", file);
+		snprintf(g_loadError, sizeof g_loadError, "error.not_read" TEXT_ARG "%s", file);
 		return 0;
 	}
 	fclose(f);
@@ -380,7 +385,7 @@ ECL_EXPORT int Init(void)
 	 * so makepath composes the bare mounted name. */
 	if (!Memory.LoadROMMem(romBuf, (uint32)size, file))
 	{
-		snprintf(g_loadError, sizeof g_loadError, "Snes9x rejected '%s'", file);
+		snprintf(g_loadError, sizeof g_loadError, "error.rejected" TEXT_ARG "%s", file);
 		return 0;
 	}
 	delete[] romBuf;
