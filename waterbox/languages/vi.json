@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Dự án không có tệp băng nào.",
+		"error.no_memory": "Snes9x không thể thiết lập bộ nhớ của máy hoặc chip âm thanh của nó.",
+		"error.not_read": "Không thể đọc '%1'.",
+		"error.rejected": "Snes9x không thể tải '%1'.",
+		"setting.leftport": "Cổng trái",
+		"setting.leftport.about": "Thiết bị cắm vào cổng tay cầm bên trái của máy. Multitap cho người chơi 1 đến 4, và các tay cầm của cổng phải sau đó nối tiếp theo.",
+		"setting.rightport": "Cổng phải",
+		"setting.rightport.about": "Thiết bị cắm vào cổng tay cầm bên phải của máy.",
+		"slot.cart": "Băng",
+		"slot.cart.help": "ROM băng Super Nintendo hoặc Super Famicom.",
+		"slot.msu1": "Gói âm thanh MSU1",
+		"slot.msu1.help": "Các tệp của phần bổ sung MSU1, dùng cho băng có dùng nó. Đó là tệp dữ liệu .msu và các rãnh âm thanh -1.pcm, -2.pcm, v.v. Tên của chúng phải bắt đầu bằng tên tệp băng (rom.msu, rom-1.pcm ...), vì máy tìm chúng theo cách đó. Không có gói thì băng chạy như trên máy không có MSU1."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "No hi ha cap fitxer de cartutx al projecte.",
+		"error.no_memory": "Snes9x no ha pogut preparar la memòria de la consola ni el seu xip de so.",
+		"error.not_read": "No s'ha pogut llegir «%1».",
+		"error.rejected": "Snes9x no ha pogut carregar «%1».",
+		"setting.leftport": "Port esquerre",
+		"setting.leftport.about": "El que hi ha connectat al port de comandament esquerre de la consola. Un multitap dona als jugadors del 1 al 4, i els comandaments del port dret vénen després.",
+		"setting.rightport": "Port dret",
+		"setting.rightport.about": "El que hi ha connectat al port de comandament dret de la consola.",
+		"slot.cart": "Cartutx",
+		"slot.cart.help": "La ROM del cartutx de Super Nintendo o Super Famicom.",
+		"slot.msu1": "Paquet d'àudio MSU1",
+		"slot.msu1.help": "Els fitxers del complement MSU1, per a un cartutx que l'usi. Són el fitxer de dades .msu i les pistes d'àudio -1.pcm, -2.pcm, i així successivament. Els seus noms han de començar pel nom del fitxer del cartutx (rom.msu, rom-1.pcm ...), perquè així la màquina els troba. Sense paquet, el cartutx funciona com en una consola que no té MSU1."
+	}
+}

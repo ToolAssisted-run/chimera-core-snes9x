@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Tidak ada berkas kartrid di dalam proyek.",
+		"error.no_memory": "Snes9x tidak dapat menyiapkan memori konsol atau chip suaranya.",
+		"error.not_read": "Tidak dapat membaca '%1'.",
+		"error.rejected": "Snes9x tidak dapat memuat '%1'.",
+		"setting.leftport": "Port Kiri",
+		"setting.leftport.about": "Apa yang dicolokkan ke port kontroler kiri konsol. Multitap memberi pemain 1 sampai 4, dan gamepad dari port kanan kemudian berada setelahnya.",
+		"setting.rightport": "Port Kanan",
+		"setting.rightport.about": "Apa yang dicolokkan ke port kontroler kanan konsol.",
+		"slot.cart": "Kartrid",
+		"slot.cart.help": "ROM kartrid Super Nintendo atau Super Famicom.",
+		"slot.msu1": "Paket audio MSU1",
+		"slot.msu1.help": "Berkas add-on MSU1, untuk kartrid yang memakainya. Berupa berkas data .msu dan trek audio -1.pcm, -2.pcm dan seterusnya. Namanya harus diawali nama berkas kartrid (rom.msu, rom-1.pcm ...), karena begitulah mesin menemukannya. Tanpa paket, kartrid berjalan seperti di konsol yang tidak punya MSU1."
+	}
+}

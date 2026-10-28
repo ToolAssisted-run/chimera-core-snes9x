@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Ingen cartridgefil er i projektet.",
+		"error.no_memory": "Snes9x kunne ikke sætte konsollens hukommelse eller dens lydchip op.",
+		"error.not_read": "Kunne ikke læse '%1'.",
+		"error.rejected": "Snes9x kunne ikke indlæse '%1'.",
+		"setting.leftport": "Venstre port",
+		"setting.leftport.about": "Det, der er sat i konsollens venstre controllerport. En multitap giver spillerne 1 til 4, og gamepads i højre port kommer så efter dem.",
+		"setting.rightport": "Højre port",
+		"setting.rightport.about": "Det, der er sat i konsollens højre controllerport.",
+		"slot.cart": "Cartridge",
+		"slot.cart.help": "Super Nintendo- eller Super Famicom-cartridgens ROM.",
+		"slot.msu1": "MSU1-lydpakke",
+		"slot.msu1.help": "Filerne til MSU1-tilbehøret, til en cartridge der bruger det. Det er datafilen .msu og lydsporene -1.pcm, -2.pcm og så videre. Deres navne skal begynde med cartridgens filnavn (rom.msu, rom-1.pcm ...), for det er sådan maskinen finder dem. Uden pakke kører cartridgen, som den gør på en konsol uden MSU1."
+	}
+}

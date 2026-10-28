@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "No hay ningún archivo de cartucho en el proyecto.",
+		"error.no_memory": "Snes9x no pudo preparar la memoria de la consola ni su chip de sonido.",
+		"error.not_read": "No se pudo leer '%1'.",
+		"error.rejected": "Snes9x no pudo cargar '%1'.",
+		"setting.leftport": "Puerto izquierdo",
+		"setting.leftport.about": "Lo que está conectado al puerto de control izquierdo de la consola. Un multitap da a los jugadores 1 a 4, y los mandos del puerto derecho van después de ellos.",
+		"setting.rightport": "Puerto derecho",
+		"setting.rightport.about": "Lo que está conectado al puerto de control derecho de la consola.",
+		"slot.cart": "Cartucho",
+		"slot.cart.help": "La ROM del cartucho de Super Nintendo o Super Famicom.",
+		"slot.msu1": "Paquete de audio MSU1",
+		"slot.msu1.help": "Los archivos del complemento MSU1, para un cartucho que lo use. Son el archivo de datos .msu y las pistas de audio -1.pcm, -2.pcm, etc. Sus nombres deben empezar por el nombre del archivo del cartucho (rom.msu, rom-1.pcm ...), porque así los encuentra la máquina. Sin paquete, el cartucho funciona como en una consola que no tiene MSU1."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Projede kartuş dosyası yok.",
+		"error.no_memory": "Snes9x konsolun belleğini ya da ses çipini hazırlayamadı.",
+		"error.not_read": "'%1' okunamadı.",
+		"error.rejected": "Snes9x '%1' dosyasını yükleyemedi.",
+		"setting.leftport": "Sol Port",
+		"setting.leftport.about": "Konsolun sol denetleyici portuna takılı olan şey. Çoklu bağlantı 1 ile 4 arası oyunculara verir ve sağ portun pedleri onların ardından gelir.",
+		"setting.rightport": "Sağ Port",
+		"setting.rightport.about": "Konsolun sağ denetleyici portuna takılı olan şey.",
+		"slot.cart": "Kartuş",
+		"slot.cart.help": "Super Nintendo ya da Super Famicom kartuşunun ROM'u.",
+		"slot.msu1": "MSU1 ses paketi",
+		"slot.msu1.help": "MSU1 eklentisinin dosyaları; bunu kullanan bir kartuş için. .msu veri dosyası ile -1.pcm, -2.pcm gibi ses parçalarıdır. Adları kartuşun dosya adıyla başlamalıdır (rom.msu, rom-1.pcm ...), çünkü makine bunları bu şekilde bulur. Paket yoksa kartuş, MSU1'i olmayan bir konsolda olduğu gibi çalışır."
+	}
+}

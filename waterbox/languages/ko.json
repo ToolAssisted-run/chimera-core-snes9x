@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "프로젝트에 카트리지 파일이 없습니다.",
+		"error.no_memory": "Snes9x가 콘솔의 메모리나 사운드 칩을 설정할 수 없었습니다.",
+		"error.not_read": "'%1'을(를) 읽을 수 없습니다.",
+		"error.rejected": "Snes9x가 '%1'을(를) 불러올 수 없었습니다.",
+		"setting.leftport": "왼쪽 포트",
+		"setting.leftport.about": "콘솔의 왼쪽 컨트롤러 포트에 연결된 장치입니다. 멀티탭은 1번부터 4번까지의 플레이어를 주며, 그 뒤로 오른쪽 포트의 패드가 이어집니다.",
+		"setting.rightport": "오른쪽 포트",
+		"setting.rightport.about": "콘솔의 오른쪽 컨트롤러 포트에 연결된 장치입니다.",
+		"slot.cart": "카트리지",
+		"slot.cart.help": "슈퍼 닌텐도 또는 슈퍼 패미컴 카트리지 ROM입니다.",
+		"slot.msu1": "MSU1 오디오 팩",
+		"slot.msu1.help": "MSU1 추가 장치의 파일입니다. 이것을 쓰는 카트리지에 필요합니다. .msu 데이터 파일과 -1.pcm, -2.pcm 등의 오디오 트랙입니다. 이름은 카트리지 파일 이름으로 시작해야 합니다(rom.msu, rom-1.pcm ...). 기계가 이 이름으로 파일을 찾기 때문입니다. 팩이 없으면 카트리지는 MSU1이 없는 콘솔에서와 같이 실행됩니다."
+	}
+}

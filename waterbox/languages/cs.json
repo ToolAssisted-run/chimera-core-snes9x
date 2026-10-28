@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "V projektu není žádný soubor kazety.",
+		"error.no_memory": "Snes9x nemohl připravit paměť konzole ani její zvukový čip.",
+		"error.not_read": "Nelze přečíst '%1'.",
+		"error.rejected": "Snes9x nemohl načíst '%1'.",
+		"setting.leftport": "Levý port",
+		"setting.leftport.about": "Co je zapojeno do levého portu ovladače konzole. Multitap dává hráčům 1 až 4 a ovladače pravého portu jdou až za nimi.",
+		"setting.rightport": "Pravý port",
+		"setting.rightport.about": "Co je zapojeno do pravého portu ovladače konzole.",
+		"slot.cart": "Kazeta",
+		"slot.cart.help": "ROM kazety Super Nintendo nebo Super Famicom.",
+		"slot.msu1": "Zvukový balíček MSU1",
+		"slot.msu1.help": "Soubory doplňku MSU1 pro kazetu, která jej používá. Jsou to datový soubor .msu a zvukové stopy -1.pcm, -2.pcm a tak dále. Jejich názvy musí začínat názvem souboru kazety (rom.msu, rom-1.pcm ...), protože tak je stroj najde. Bez balíčku kazeta běží tak, jako na konzoli bez MSU1."
+	}
+}

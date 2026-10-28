@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Ingen kassettfil finnes i prosjektet.",
+		"error.no_memory": "Snes9x kunne ikke sette opp konsollens minne eller lydbrikke.",
+		"error.not_read": "Kunne ikke lese «%1».",
+		"error.rejected": "Snes9x kunne ikke laste «%1».",
+		"setting.leftport": "Venstre port",
+		"setting.leftport.about": "Det som er koblet til konsollens venstre kontrollerport. En multitap gir spillerne 1 til 4, og kontrollerne i høyre port kommer da etter dem.",
+		"setting.rightport": "Høyre port",
+		"setting.rightport.about": "Det som er koblet til konsollens høyre kontrollerport.",
+		"slot.cart": "Kassett",
+		"slot.cart.help": "Super Nintendo- eller Super Famicom-kassettens ROM.",
+		"slot.msu1": "MSU1-lydpakke",
+		"slot.msu1.help": "Filene til MSU1-tilleggsutstyret, for en kassett som bruker det. Det er .msu-datafilen og lydsporene -1.pcm, -2.pcm og så videre. Navnene deres må begynne med kassettens filnavn (rom.msu, rom-1.pcm ...), for det er slik maskinen finner dem. Uten pakke kjører kassetten slik den gjør på en konsoll uten MSU1."
+	}
+}

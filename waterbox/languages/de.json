@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Im Projekt ist keine Cartridge-Datei.",
+		"error.no_memory": "Snes9x konnte den Speicher der Konsole oder ihren Soundchip nicht einrichten.",
+		"error.not_read": "'%1' konnte nicht gelesen werden.",
+		"error.rejected": "Snes9x konnte '%1' nicht laden.",
+		"setting.leftport": "Linker Anschluss",
+		"setting.leftport.about": "Was am linken Controller-Anschluss der Konsole angeschlossen ist. Ein Multitap gibt den Spielern 1 bis 4, und die Pads des rechten Anschlusses kommen danach.",
+		"setting.rightport": "Rechter Anschluss",
+		"setting.rightport.about": "Was am rechten Controller-Anschluss der Konsole angeschlossen ist.",
+		"slot.cart": "Cartridge",
+		"slot.cart.help": "Das ROM der Super-Nintendo- oder Super-Famicom-Cartridge.",
+		"slot.msu1": "MSU1-Audiopaket",
+		"slot.msu1.help": "Die Dateien des MSU1-Zusatzes, für eine Cartridge, die ihn nutzt. Das sind die .msu-Datendatei und die Audiospuren -1.pcm, -2.pcm usw. Ihre Namen müssen mit dem Dateinamen der Cartridge beginnen (rom.msu, rom-1.pcm ...), weil die Maschine sie so findet. Ohne Paket läuft die Cartridge so, wie sie auf einer Konsole ohne MSU1 läuft."
+	}
+}

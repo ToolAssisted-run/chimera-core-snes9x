@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "项目中没有卡带文件。",
+		"error.no_memory": "Snes9x 无法设置主机的内存或其声音芯片。",
+		"error.not_read": "无法读取 '%1'。",
+		"error.rejected": "Snes9x 无法加载 '%1'。",
+		"setting.leftport": "左端口",
+		"setting.leftport.about": "插在主机左侧控制器端口上的设备。多路器可为玩家 1 至 4 提供端口，右端口的手柄则排在其后。",
+		"setting.rightport": "右端口",
+		"setting.rightport.about": "插在主机右侧控制器端口上的设备。",
+		"slot.cart": "卡带",
+		"slot.cart.help": "Super Nintendo 或 Super Famicom 卡带 ROM。",
+		"slot.msu1": "MSU1 音频包",
+		"slot.msu1.help": "MSU1 附加设备的文件，供使用它的卡带使用。它们是 .msu 数据文件和音轨 -1.pcm、-2.pcm 等。其名称必须以卡带文件名开头（rom.msu、rom-1.pcm ……），机器靠这一点找到它们。没有音频包时，卡带的运行方式与无 MSU1 的主机相同。"
+	}
+}

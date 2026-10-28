@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "專案中沒有卡帶檔案。",
+		"error.no_memory": "Snes9x 無法設定主機的記憶體或其聲音晶片。",
+		"error.not_read": "無法讀取 '%1'。",
+		"error.rejected": "Snes9x 無法載入 '%1'。",
+		"setting.leftport": "左側連接埠",
+		"setting.leftport.about": "插在主機左側控制器連接埠上的裝置。多人轉接器會讓玩家 1 至 4 使用，右側連接埠的手把則排在其後。",
+		"setting.rightport": "右側連接埠",
+		"setting.rightport.about": "插在主機右側控制器連接埠上的裝置。",
+		"slot.cart": "卡帶",
+		"slot.cart.help": "Super Nintendo 或 Super Famicom 的卡帶 ROM。",
+		"slot.msu1": "MSU1 音訊附加包",
+		"slot.msu1.help": "MSU1 附加裝置的檔案，供使用它的卡帶使用。包括 .msu 資料檔，以及 -1.pcm、-2.pcm 等音軌。它們的檔名必須以卡帶的檔名開頭（rom.msu、rom-1.pcm……），機器才能找到它們。沒有附加包時，卡帶的執行方式與在沒有 MSU1 的主機上相同。"
+	}
+}

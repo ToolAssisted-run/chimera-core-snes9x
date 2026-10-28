@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Projektissa ei ole kasettitiedostoa.",
+		"error.no_memory": "Snes9x ei voinut luoda konsolin muistia tai sen äänipiiriä.",
+		"error.not_read": "Kohdetta '%1' ei voitu lukea.",
+		"error.rejected": "Snes9x ei voinut ladata kohdetta '%1'.",
+		"setting.leftport": "Vasen portti",
+		"setting.leftport.about": "Mikä on kytketty konsolin vasempaan ohjainporttiin. Monikanavainen liitin antaa pelaajat 1-4, ja oikean portin padit tulevat niiden jälkeen.",
+		"setting.rightport": "Oikea portti",
+		"setting.rightport.about": "Mikä on kytketty konsolin oikeaan ohjainporttiin.",
+		"slot.cart": "Kasetti",
+		"slot.cart.help": "Super Nintendo- tai Super Famicom -kasetin ROM.",
+		"slot.msu1": "MSU1-äänipaketti",
+		"slot.msu1.help": "MSU1-lisälaitteen tiedostot kasetille, joka käyttää sitä. Ne ovat .msu-datatiedosto ja ääniraidat -1.pcm, -2.pcm jne. Nimien täytyy alkaa kasetin tiedostonimellä (rom.msu, rom-1.pcm ...), koska kone löytää ne sen perusteella. Ilman pakettia kasetti toimii samoin kuin konsolissa, jossa ei ole MSU1:tä."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Er staat geen cartridgebestand in het project.",
+		"error.no_memory": "Snes9x kon het geheugen van de console of zijn geluidschip niet instellen.",
+		"error.not_read": "Kon '%1' niet lezen.",
+		"error.rejected": "Snes9x kon '%1' niet laden.",
+		"setting.leftport": "Linkerpoort",
+		"setting.leftport.about": "Wat er op de linkercontrollerpoort van de console is aangesloten. Een multitap geeft spelers 1 tot 4, en de pads van de rechterpoort komen daarna.",
+		"setting.rightport": "Rechterpoort",
+		"setting.rightport.about": "Wat er op de rechtercontrollerpoort van de console is aangesloten.",
+		"slot.cart": "Cartridge",
+		"slot.cart.help": "De ROM van de Super Nintendo- of Super Famicom-cartridge.",
+		"slot.msu1": "Audiopakket MSU1",
+		"slot.msu1.help": "De bestanden van de MSU1-uitbreiding, voor een cartridge die die gebruikt. Dat zijn het .msu-databestand en de audiotracks -1.pcm, -2.pcm enzovoort. Hun namen moeten beginnen met de bestandsnaam van de cartridge (rom.msu, rom-1.pcm ...), want zo vindt de machine ze. Zonder pakket draait de cartridge zoals op een console zonder MSU1."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "Niciun fișier de cartușă nu este în proiect.",
+		"error.no_memory": "Snes9x nu a putut pregăti memoria consolei sau cipul ei de sunet.",
+		"error.not_read": "Nu s-a putut citi „%1”.",
+		"error.rejected": "Snes9x nu a putut încărca „%1”.",
+		"setting.leftport": "Portul stâng",
+		"setting.leftport.about": "Ce este conectat la portul stâng al consolei. Un multitap le dă jucătorilor 1 până la 4, iar gamepad-urile din portul drept vin după ei.",
+		"setting.rightport": "Portul drept",
+		"setting.rightport.about": "Ce este conectat la portul drept al consolei.",
+		"slot.cart": "Cartușă",
+		"slot.cart.help": "ROM-ul cartușei Super Nintendo sau Super Famicom.",
+		"slot.msu1": "Pachet audio MSU1",
+		"slot.msu1.help": "Fișierele suplimentului MSU1, pentru o cartușă care îl folosește. Sunt fișierul de date .msu și piesele audio -1.pcm, -2.pcm și așa mai departe. Numele lor trebuie să înceapă cu numele fișierului cartușei (rom.msu, rom-1.pcm ...), pentru că așa găsește mașina fișierele. Fără pachet, cartușa rulează așa cum rulează pe o consolă fără MSU1."
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "プロジェクトにカートリッジファイルがありません。",
+		"error.no_memory": "Snes9x は、本体のメモリやサウンドチップを設定できませんでした。",
+		"error.not_read": "'%1' を読み込めませんでした。",
+		"error.rejected": "Snes9x は '%1' を読み込めませんでした。",
+		"setting.leftport": "左ポート",
+		"setting.leftport.about": "本体の左のコントローラーポートに接続されているもの。マルチタップを使うとプレイヤー 1 から 4 になり、右ポートのパッドはその後に続きます。",
+		"setting.rightport": "右ポート",
+		"setting.rightport.about": "本体の右のコントローラーポートに接続されているもの。",
+		"slot.cart": "カートリッジ",
+		"slot.cart.help": "Super Nintendo または Super Famicom のカートリッジ ROM。",
+		"slot.msu1": "MSU1 オーディオパック",
+		"slot.msu1.help": "MSU1 の追加機器を使うカートリッジのためのファイルです。.msu データファイルと、オーディオトラックの -1.pcm、-2.pcm などです。名前はカートリッジのファイル名から始まっている必要があります (rom.msu、rom-1.pcm ...)。マシンはその名前でファイルを見つけます。パックがない場合、カートリッジは MSU1 のない本体と同じように動きます。"
+	}
+}

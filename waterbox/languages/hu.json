@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "A projektben nincs kazettafájl.",
+		"error.no_memory": "A Snes9x nem tudta beállítani a konzol memóriáját vagy hangchipjét.",
+		"error.not_read": "Nem sikerült olvasni: „%1”.",
+		"error.rejected": "A Snes9x nem tudta betölteni a(z) „%1” fájlt.",
+		"setting.leftport": "Bal port",
+		"setting.leftport.about": "A konzol bal vezérlőportjára csatlakoztatott eszköz. Egy többcsatlakozós elosztó az 1–4. játékosnak ad helyet, a jobb port padjai pedig utánuk következnek.",
+		"setting.rightport": "Jobb port",
+		"setting.rightport.about": "A konzol jobb vezérlőportjára csatlakoztatott eszköz.",
+		"slot.cart": "Kazetta",
+		"slot.cart.help": "A Super Nintendo vagy Super Famicom kazetta ROM-ja.",
+		"slot.msu1": "MSU1 hangcsomag",
+		"slot.msu1.help": "Az MSU1 bővítmény fájljai, azoknak a kazettáknak, amelyek használják. Ezek a .msu adatfájl és a -1.pcm, -2.pcm stb. hangsávok. Nevüknek a kazetta fájlnevével kell kezdődnie (rom.msu, rom-1.pcm ...), mert így találja meg őket a gép. Csomag nélkül a kazetta úgy fut, mint MSU1 nélküli konzolon."
+	}
+}

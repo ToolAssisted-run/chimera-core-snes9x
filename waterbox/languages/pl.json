@@ -1,0 +1,16 @@
+{
+	"texts": {
+		"error.no_file": "W projekcie nie ma pliku wkładu.",
+		"error.no_memory": "Snes9x nie mógł przygotować pamięci konsoli ani jej układu dźwiękowego.",
+		"error.not_read": "Nie można odczytać „%1”.",
+		"error.rejected": "Snes9x nie mógł wczytać „%1”.",
+		"setting.leftport": "Lewy port",
+		"setting.leftport.about": "Co jest podłączone do lewego portu kontrolera konsoli. Multitap daje graczom 1 do 4, a pady z prawego portu idą po nich.",
+		"setting.rightport": "Prawy port",
+		"setting.rightport.about": "Co jest podłączone do prawego portu kontrolera konsoli.",
+		"slot.cart": "Wkład",
+		"slot.cart.help": "Plik ROM wkładu Super Nintendo lub Super Famicom.",
+		"slot.msu1": "Dodatek audio MSU1",
+		"slot.msu1.help": "Pliki dodatku MSU1, dla wkładu, który go używa. Są to plik danych .msu i ścieżki audio -1.pcm, -2.pcm i tak dalej. Ich nazwy muszą zaczynać się od nazwy pliku wkładu (rom.msu, rom-1.pcm...), bo tak maszyna je znajduje. Bez dodatku wkład działa tak, jak na konsoli bez MSU1."
+	}
+}
