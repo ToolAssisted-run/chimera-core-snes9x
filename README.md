@@ -22,9 +22,9 @@ Status and plan: `docs/PLAN.md`.
 ## Using it in Chimera
 
 Chimera ships no cores and downloads none. Download
-`snes9x-<version>.chimeraCore` from this repository's
+`snes9x-<version>-x86_64.chimeraCore` from this repository's
 [Releases](https://github.com/ToolAssisted-run/chimera-core-snes9x/releases)
-page (`dev` follows main, `nightly-YYYY-MM-DD` builds are dated), or build it,
+page (dated `nightly-YYYY-MM-DD` builds), or build it,
 and put the file in the `cores` folder beside Chimera's program. Tools > Core Manager... lists the cores in that folder. The same file works on Linux and on
 Windows. Game files are not included: you provide them.
 
